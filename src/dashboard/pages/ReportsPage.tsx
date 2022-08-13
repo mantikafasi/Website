@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Report } from '../../entities/Report';
 import ReportsComponent from '../components/ReportsComponent'
 
 export default function ReportsPage(props:any) {
-  const [selectedReports, setSelectedReports] = React.useState<Report[]>([]);
+  var selectedReports: Report[] = [];
 
-  function addReport(report: Report) {
-    props.setShowTrash(true);
-    setSelectedReports([...selectedReports, report]);
+  if (selectedReports.length === 0) {
+    props.setShowTrash(false);
   }
+  
+  function addReport(report: Report) {
+  
+    props.setShowTrash(true);
+    selectedReports = ([...selectedReports, report]);
+  }
+
   function removeReport(report: Report) {
-    setSelectedReports(selectedReports.filter(r => r.reportid !== report.reportid));
+    selectedReports = (selectedReports.filter(r => r.reportid !== report.reportid));
     if (selectedReports.length === 0) {
       props.setShowTrash(false);
     }
@@ -20,10 +26,17 @@ export default function ReportsPage(props:any) {
     props.setShowTrash(false);
   }
 
-  window.addEventListener("deleteReviews",()=>{
-    window.removeEventListener("deleteReviews",()=>{});
+  const deleteReports = () => {
     alert("deleteReviews");
-  })
+  }
+
+  useEffect(()=>{
+    window.addEventListener("deleteReviews",deleteReports)
+
+    return () => {
+      window.removeEventListener("deleteReviews",deleteReports);
+    }
+  }, [])
 
   return (
     <div><ReportsComponent addReport={(rep:Report)=>addReport(rep)} removeReport={(rep:Report)=>removeReport(rep)}/></div>

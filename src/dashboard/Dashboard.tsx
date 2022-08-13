@@ -9,18 +9,15 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './listItems';
 import MainPage from './pages/MainPage';
-import { useLocation } from 'react-router-dom'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReportsPage from './pages/ReportsPage';
 import ReviewsPage from './pages/ReviewsPage';
-import { useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteDialog from './dialogs/DeleteDialog';
 
@@ -28,8 +25,8 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://manti.vendicated.dev/">
+        GuhGamin
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -90,13 +87,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme({palette:{mode:"dark"}});
 
 function DashboardContent() {
+
+  (!localStorage.getItem('token')) ?? (window.location.href = '/login');
+
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const [showTrash, setShowTrash] = React.useState(false);
-  const [dialog, setDialog] = React.useState<Element>();
+  const [dialog, setDialog] = React.useState<any>();
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -176,13 +176,12 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <BrowserRouter>
             <Routes>
-              <Route path="/" element={<MainPage/>}/>
+              <Route path="/dashboard" element={<MainPage />} />
+              <Route path='*' element={<MainPage/>}/>
               <Route path='/reports' element = {<ReportsPage setShowTrash = {setShowTrash} />}  />
               <Route path='/reviews' element = {<ReviewsPage/>} />
             </Routes>
-          </BrowserRouter>
 
             <Copyright sx={{ pt: 4 }} />
           </Container>

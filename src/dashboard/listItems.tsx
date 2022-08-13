@@ -7,7 +7,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 
 export const mainListItems = (
   <React.Fragment>    
-    <ListItemButton href="/">
+    <ListItemButton href="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>

@@ -8,6 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { getReports } from '../../api/ReviewsAPI';
 import { Report } from '../../entities/Report';
+import ReportCell from './ReportCell';
 
 export default function ReportsComponent(props:any) {
     const [reports,setReports] = useState<Report[]>()
@@ -37,15 +38,7 @@ export default function ReportsComponent(props:any) {
             <TableBody>
                 {
                     (reports) ? (reports.map(rep=>
-                    <TableRow>
-                        <TableCell><Checkbox onChange={(checked)=>(checked) ? props.addReport(rep) : props.removeReport(rep)}/></TableCell>
-                        <TableCell>{rep.reportid}</TableCell>
-                        <TableCell>{rep.userid}</TableCell>
-                        <TableCell>{rep.username}</TableCell>
-                        <TableCell>{rep.reviewid}</TableCell>
-                        <TableCell>{rep.reporteduserid}</TableCell>
-                        <TableCell>{rep.comment}</TableCell>
-                    </TableRow>
+                        <ReportCell report={rep} addReport = {props.addReport} removeReport = {props.removeReport}></ReportCell>
                         )): (<></>)
                 }
             </TableBody>
