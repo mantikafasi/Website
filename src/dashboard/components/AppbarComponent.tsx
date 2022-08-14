@@ -68,10 +68,11 @@ export default function AppbarComponent(props:any) {
     const [icon, setIcon] = React.useState<any>();
 
     useEffect(() => {
-        const showIcon = (icon:Element) => {setIcon(icon)}
+        const showIcon = (data:any) => {console.log(data);setIcon(data.detail)}
         const hideIcon = () => {setIcon(undefined)}
-        window.addEventListener("showIcon",showIcon);
-        window.addEventListener("hideIcon",hideIcon);
+        window.addEventListener("showIcon",showIcon)
+        window.addEventListener("hideIcon",hideIcon)
+
         return () => {
             window.removeEventListener("showIcon",showIcon);
             window.removeEventListener("hideIcon",hideIcon);
@@ -109,7 +110,7 @@ export default function AppbarComponent(props:any) {
                     </Typography >
 
                     {
-                        !!icon && icon
+                        (icon) ? icon : <></>
                     }
 
 

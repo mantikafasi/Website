@@ -3,18 +3,15 @@ import { Report } from '../../entities/Report';
 import ReportsComponent from '../components/ReportsComponent'
 import DeleteDialog from '../dialogs/DeleteDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 export default function ReportsPage(props: any) {
   var selectedReports: Report[] = [];
 
-  if (selectedReports.length === 0) {
-    props.setShowTrash(false);
-  }
-
   function addReport(report: Report) {
-    window.emit("showIcon",
+    (window as any).emit("showIcon",
       (<IconButton color="error" onClick={() => {
-        props.setDialog(<DeleteDialog closeDialog={props.setDialog}></DeleteDialog>)
+        (window as any).emit("showDialog",(<DeleteDialog/>))
       }}>
         <DeleteIcon ></DeleteIcon>
       </IconButton>))
@@ -25,12 +22,8 @@ export default function ReportsPage(props: any) {
   function removeReport(report: Report) {
     selectedReports = (selectedReports.filter(r => r.reportid !== report.reportid));
     if (selectedReports.length === 0) {
-      props.setShowTrash(false);
+      (window as any).e("hideIcon")
     }
-  }
-
-  if (selectedReports.length === 0) {
-    props.setShowTrash(false);
   }
 
   const deleteReports = () => {

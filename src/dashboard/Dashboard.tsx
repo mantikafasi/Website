@@ -17,6 +17,7 @@ import { Routes, Route } from "react-router-dom";
 import ReportsPage from './pages/ReportsPage';
 import ReviewsPage from './pages/ReviewsPage';
 import AppbarComponent from './components/AppbarComponent';
+import { useState } from 'react';
 
 function Copyright(props: any) {
   return (
@@ -31,28 +32,36 @@ function Copyright(props: any) {
   );
 }
 
+function Dialog(props: any) {
+  const [dialog,setDialog] = React.useState<any>();
+  React.useEffect(() => {
+    function showDialog(data:any) {
+      setDialog(data.detail);
+    }
 
+    window.addEventListener("showDialog",showDialog)
+    return () => {
+      window.removeEventListener("showDialog",showDialog) 
+    }
+
+  },[])
+  return (dialog ? dialog : <></>)
+}
 
 const mdTheme = createTheme({palette:{mode:"dark"}});
 
 function DashboardContent() {
 
   (!localStorage.getItem('token')) ?? (window.location.href = '/login');
-
-  const [showTrash, setShowTrash] = React.useState(false);
   
-  var dialog:any
-  const setDialog = (dialog:any) => {
-    dialog = dialog
-  }
 
   return (
     <ThemeProvider theme={mdTheme}>
-      {(dialog) ?? dialog}
+      <Dialog/>
 
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppbarComponent setDialog = {setDialog}/>
+        <AppbarComponent />
 
         <Box
           component="main"
@@ -71,7 +80,7 @@ function DashboardContent() {
             <Routes>
               <Route path="/dashboard" element={<MainPage />} />
               <Route path='*' element={<MainPage/>}/>
-              <Route path='/reports' element = {<ReportsPage setShowTrash = {setShowTrash} />}  />
+              <Route path='/reports' element = {<ReportsPage />}  />
               <Route path='/reviews' element = {<ReviewsPage/>} />
             </Routes>
 
