@@ -11,6 +11,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+(window as any).e = (name:string) => {window.dispatchEvent(new Event(name))}
+(window as any).emit = (name:string, data:any) => window.dispatchEvent(new CustomEvent(name, data))
 root.render(
   <React.StrictMode>
     <div>

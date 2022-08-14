@@ -10,8 +10,8 @@ import { getReports } from '../../api/ReviewsAPI';
 import { Report } from '../../entities/Report';
 import ReportCell from './ReportCell';
 
-export default function ReportsComponent(props:any) {
-    const [reports,setReports] = useState<Report[]>()
+export default function ReportsComponent(props: any) {
+    const [reports, setReports] = useState<Report[]>()
 
     useEffect(() => {
         if (reports === undefined) {
@@ -19,32 +19,32 @@ export default function ReportsComponent(props:any) {
                 setReports(res)
             })
         }
-    })
-    
+    }, [])
+
     return (
-    <div>
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell>Report ID</TableCell>
-                    <TableCell>User ID </TableCell>
-                    <TableCell>Username</TableCell>
-                    <TableCell>Review ID</TableCell>
-                    <TableCell>Reported User ID</TableCell>
-                    <TableCell>Comment</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {
-                    (reports) ? (reports.map(rep=>
-                        <ReportCell report={rep} addReport = {props.addReport} removeReport = {props.removeReport}></ReportCell>
-                        )): (<></>)
-                }
-            </TableBody>
+        <div>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell></TableCell>
+                        <TableCell>Report ID</TableCell>
+                        <TableCell>User ID </TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell>Review ID</TableCell>
+                        <TableCell>Reported User ID</TableCell>
+                        <TableCell>Comment</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {
+                        !!reports && reports.map(rep =>
+                            <ReportCell key={rep.reportid} report={rep} addReport={props.addReport} removeReport={props.removeReport}></ReportCell>
+                        )
+                    }
+                </TableBody>
 
-        </Table>
+            </Table>
 
-    </div>
-  )
+        </div>
+    )
 }
