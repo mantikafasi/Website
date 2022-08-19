@@ -17,7 +17,14 @@ export const deleteReviews = async(reviews : Report[]) => {
             reviewid: review.reviewid,
             token : localStorage.getItem("token")
         }
-        await (await fetch("https://manti.vendicated.dev/deleteReview?reviewid=" ,{method:"POST",body:JSON.stringify(data)})).json()
+
+        var response = (await (await fetch("https://manti.vendicated.dev/deleteReview" ,{method:"POST",body:JSON.stringify(data)})).json());
+        if (response["successful"]) {
+            (window as any).emit("showToast",{message:"Deleted Review: " + review.reviewid,severity:"success"})
+        } else {
+            (window as any).emit("showToast",{message:"Failed to delete Review" + review.reviewid,severity:"error"})
+        }
+        
     }
     return "success"
 }

@@ -10,12 +10,13 @@ import Button from '@mui/material/Button';
 export default function DeleteDialog(props:any) {
 
   const handleClose = () => {
-    window.emit("showDialog",null)
+    (window as any).emit("showDialog",null)
   };
 
   return (
     <div>
       <Dialog
+        open={true}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -30,7 +31,7 @@ export default function DeleteDialog(props:any) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={()=>{window.dispatchEvent(new CustomEvent("deleteReviews"));props.setDialog();}} autoFocus>
+          <Button onClick={()=>{window.dispatchEvent(new CustomEvent("deleteReviews"));}} autoFocus>
             Delete
           </Button>
         </DialogActions>

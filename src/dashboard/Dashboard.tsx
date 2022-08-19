@@ -18,6 +18,7 @@ import ReportsPage from './pages/ReportsPage';
 import ReviewsPage from './pages/ReviewsPage';
 import AppbarComponent from './components/AppbarComponent';
 import { useState } from 'react';
+import Alert from '@mui/material/Alert';
 
 function Copyright(props: any) {
   return (
@@ -48,6 +49,24 @@ function Dialog(props: any) {
   return (dialog ? dialog : <></>)
 }
 
+function Toast(props: any) {
+  const [toast,setToast] = React.useState<any>();
+  const setToastMessage = (data:any)=> {
+    setToast
+     ( <Alert severity={data.detail.severity} color="info">
+    {data.detail.message}
+      </Alert>)
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("showToast",setToastMessage)
+    return () => {
+      window.removeEventListener("showToast",setToastMessage)
+    }
+  })
+  return (toast ? toast : <></>)
+}
+
 const mdTheme = createTheme({palette:{mode:"dark"}});
 
 function DashboardContent() {
@@ -58,11 +77,11 @@ function DashboardContent() {
   return (
     <ThemeProvider theme={mdTheme}>
       <Dialog/>
+      
 
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppbarComponent />
-
         <Box
           component="main"
           sx={{
@@ -77,6 +96,8 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Toast/>
+
             <Routes>
               <Route path="/dashboard" element={<MainPage />} />
               <Route path='*' element={<MainPage/>}/>

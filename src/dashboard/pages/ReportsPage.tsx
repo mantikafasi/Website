@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Report } from '../../entities/Report';
 import ReportsComponent from '../components/ReportsComponent'
 import DeleteDialog from '../dialogs/DeleteDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import { deleteReviews } from '../../api/ReviewsAPI';
+import { memo } from "react";
 
-export default function ReportsPage(props: any) {
+function ReportsPage(props: any) {
   var selectedReports: Report[] = [];
 
   function addReport(report: Report) {
@@ -27,7 +29,8 @@ export default function ReportsPage(props: any) {
   }
 
   const deleteReports = () => {
-    alert("deleteReviews");
+    deleteReviews(selectedReports);
+    (window as any).emit("showDialog",undefined)
   }
 
   useEffect(() => {
@@ -42,3 +45,5 @@ export default function ReportsPage(props: any) {
     <div><ReportsComponent addReport={(rep: Report) => addReport(rep)} removeReport={(rep: Report) => removeReport(rep)} /></div>
   )
 }
+
+export default memo(ReportsPage)
