@@ -99,7 +99,7 @@ function DashboardContent() {
           <Toast/>
 
             <Routes>
-              <Route path="/dashboard" element={<MainPage />} />
+              <Route path="/dashboardv2" element={<MainPage />} />
               <Route path='*' element={<MainPage/>}/>
               <Route path='/reports' element = {<ReportsPage />}  />
               <Route path='/reviews' element = {<ReviewsPage/>} />
